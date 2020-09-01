@@ -1,0 +1,16 @@
+
+0: Make a map of how code works
+	- double check syntax and test unknown individually
+	- go through beginning and see if you can improve the structure
+
+1. Complete win logic
+	- cols
+	- rows
+	- diagonals 
+
+2. Build UI (understand interaction with HTML and CSS)
+	- Generate a list of highest priority changes to display
+
+3. Integrate unit tests to debug after construction
+
+
