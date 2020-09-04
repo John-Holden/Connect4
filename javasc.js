@@ -3,6 +3,8 @@ const rows = 6;
 const ytoken = '🟡';
 const rtoken = '🔴';
 const connectN = 4;
+let rWins = 0;
+let yWins = 0;
 let playerCount = 1;
 let winner = false;
 
@@ -92,6 +94,13 @@ function takeTurn(event) {
         jsArr[i][colClicked] = (playerCount % 2) + 1;
         winner = CheckWinner(i, colClicked, jsArr);
         if (winner) {
+          if (playerCount % 2 === 0) {
+            yWins++; // update red token counter
+            $('#yCount').text(yWins);
+          } else { // update yellow token counter
+            rWins++;
+            $('#rCount').text(rWins);
+          }
           $('#winMsg').fadeIn(0);
           $('#winMsg').fadeOut(1500);
         }
@@ -102,11 +111,6 @@ function takeTurn(event) {
     // if else, prompt to reset board
   } else if (winner) {
     console.log('winner...');
-    $( "#reset" ).click(function() {
-      $( "#reset" ).animate({
-      width: "300px",
-      height: "300px",}, 1500 );
-    });
   }
 }
 
@@ -141,6 +145,10 @@ function getBoard(rows, columns) {
       }
     }
   }
+  const rToken = $('#rCount');
+  rToken.text(rWins);
+  const yToken = $('#yCount');
+  yToken.text(yWins);
   return jsArr;
 }
 
@@ -159,4 +167,3 @@ function resetBoard(event) {
 
 jsArr = getBoard(rows, columns);
 $('#reset').click(resetBoard);
-

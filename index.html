@@ -9,7 +9,6 @@
         .text {
             text-align: center;
         }
-
         #grid {
             width: 75%;
             height: 75%;
@@ -19,14 +18,12 @@
             box-shadow: 2px 2px black;
             justify-content: space-evenly;
         }
-        
         .row {
             flex-wrap: wrap;
             justify-content: center;
             justify-content: space-evenly;
             padding: 1px;
         }
-
         .column {
             flex-wrap: wrap;
             margin-left: 1.5%;
@@ -34,7 +31,6 @@
             border: 1px solid blue;
             padding: 1px;
         }
-
         .myButtons {
             padding: 1px;
             font-size: 5vw;
@@ -53,9 +49,14 @@
             margin-left: -50px;
             width: 100px;
             height: 100px;
-            /* visibility: hidden; */
             display: none;
             opacity: 1;
+        }
+        .controlCol {
+            align-content: center;
+            justify-content: center;
+            font-size: 5vw;
+            border: none;
         }
         .button {
             border-radius: 4px;
@@ -63,53 +64,79 @@
             border: none;
             color: #FFFFFF;
             text-align: center;
-            font-size: 28px;
-            padding: 20px;
-            width: 250px;
+            font-size: 20px;
+            padding: 15px;
+            width: 200px;
             transition: all 0.5s;
             cursor: pointer;
-            margin: 5px;
-        }
-
+        }   
         .button span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
         }
-
         .button span:after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
         }
-
         .button:hover span {
-            padding-right: 25px;
+        padding-right: 25px;
         }
-
         .button:hover span:after {
-            opacity: 1;
-            right: 0;
-        } 
+        opacity: 1;
+        right: 0;
+        }
+        .winCounters {
+            position: absolute;
+            font-size: 3vw;
+            margin-left: 45%;
+        }
+        .yCount {
+            width: 65px;
+            height: 65px;
+            background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-yellow-circle_1f7e1.png");
+            background-size: 65px 65px;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+       }
+       .rCount {
+            width: 70px;
+            height: 70px;
+            background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-red-circle_1f534.png");
+            background-size: 70px 70px;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+       }
 
     </style>
 </head>
 
 <body id="test">
     <h1 class="text">Connect 4</h1>
-    
+    <br>
     <div class="container" id="grid">
         <p class="winBanner" id=winMsg> Winner!</p>
         <!-- bord elemtns go here-->
     </div>
     <br>
 
-    <!-- <button type="button" id="reset" class="btn btn-danger btn-sm">Clear board</button> -->
-    <button class="button" id="reset"><span>Clear Board </span></button>
+    <div class="container">
+        <!-- win count & reset go here -->
+        <div class="row controlCol">
+            <div class="column controlCol rCount" id='rCount'> </div>
+            <div class="column controlCol" id='resetButtoncol'> 
+                <button class="button" id="reset"><span>Clear Board </span></button>
+            </div>
+            <div class="column controlCol yCount" id='yCount'></div>
+    </div>
+
 </body>
 
 
