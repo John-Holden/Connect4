@@ -85,7 +85,9 @@ function takeTurn(event) {
     const colClicked = event.target.id.split('-')[1];
     for (let i = 1; i < rows + 1; i++) {
       if (jsArr[i][colClicked] === null) {
+        // $(`#row-${i}-col-${colClicked}`).remove();
         const buttonClick = $(`#row-${i}-col-${colClicked}`);
+        buttonClick.attr('class', 'column movetxt');
         if (playerCount % 2 === 0) {
           buttonClick.text(ytoken);
         } else {
@@ -101,8 +103,8 @@ function takeTurn(event) {
             rWins++;
             $('#rCount').text(rWins);
           }
-          $('#winMsg').fadeIn(0);
-          $('#winMsg').fadeOut(1500);
+          $('#winMsg').fadeIn(200);
+          $('#winMsg').fadeOut(2500);
         }
         playerCount++;
         break;
@@ -139,7 +141,8 @@ function getBoard(rows, columns) {
       else {
         const column = $('<div> </div>');
         column.attr('id', `row-${i}-col-${j}`);
-        column.attr('class', 'column');
+        // column.attr('class', 'column fallingInit');
+        column.attr('class', 'column movetxt');
         column.text('⚪');
         $(`#row-${i}`).append(column);
       }
