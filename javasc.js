@@ -18,10 +18,60 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1; // if same as peice above add 1
-    }
-    if (connectCount === connectN) {
+    } if (connectCount === connectN) {
       winner = true;
-      break;
+      return winner;
+    }
+  }
+
+  // check horizontal win
+  connectCount = 1;
+  for (let j = 0; j < columns - 1; j++) {
+    if (jsArr[onRow][j] === null) {
+      connectCount = 1;
+    } else if (jsArr[onRow][j] === jsArr[onRow][j + 1]) {
+      connectCount += 1;
+    } else {
+      connectCount = 1;
+    } if (connectCount === connectN) {
+      winner = true;
+      return winner;
+    }
+  }
+  // check diagonals
+  // +ve diagonal
+  let rowStart = onRow - Math.min(onRow - 1, onCol);
+  let colStart = onCol - Math.min(onRow - 1, onCol);
+  let numIter = Math.min(rows + 1 - rowStart, columns - colStart);
+  connectCount = 1;
+  for (let i = 0; i < numIter - 1; i++) {
+    if (jsArr[rowStart + i][colStart + i] === null) {
+      connectCount = 1;
+    } else if (jsArr[rowStart + i][colStart + i] === jsArr[rowStart + i + 1][colStart + i + 1]) {
+      connectCount += 1;
+    } else {
+      connectCount = 1;
+    } if (connectCount === connectN) {
+      winner = true;
+      return winner;
+    }
+  }
+  // -ve diagonal
+  connectCount = 1;
+  rowStart = onRow - Math.min(onRow - 1, columns - onCol);
+  colStart = +onCol + +Math.min(onRow - 1, columns - onCol);
+  numIter = Math.min(rows + 1 - rowStart, colStart + 1);
+  connectCount = 1;
+  for (let i = 0; i < numIter - 1; i++) {
+    if (jsArr[rowStart + i][colStart - i] === null) {
+      connectCount = 1;
+    } else if (jsArr[rowStart + i][colStart - i] === jsArr[rowStart + i + 1][colStart - (i + 1)]) {
+      connectCount += 1;
+    } else {
+      connectCount = 1;
+    } if (connectCount === connectN) {
+      winner = true;
+      return winner;
     }
   }
   return winner;
@@ -41,22 +91,22 @@ function takeTurn(event) {
         }
         jsArr[i][colClicked] = (playerCount % 2) + 1;
         winner = CheckWinner(i, colClicked, jsArr);
-
-        // if win do something update score count and display win messgae
-        playerCount++;
         if (winner) {
-          const winMsg = $('<p> Winner! </p>');
-          winMsg.attr('id', 'winMsg');
-          winMsg.attr('class', 'winBanner');
-          $('#grid').append(winMsg);
-          $('#winMsg').fadeOut(2500);
+          $('#winMsg').fadeIn(0);
+          $('#winMsg').fadeOut(1500);
         }
+        playerCount++;
         break;
       }
     }
     // if else, prompt to reset board
   } else if (winner) {
     console.log('winner...');
+    $( "#reset" ).click(function() {
+      $( "#reset" ).animate({
+      width: "300px",
+      height: "300px",}, 1500 );
+    });
   }
 }
 
@@ -91,9 +141,6 @@ function getBoard(rows, columns) {
       }
     }
   }
-
-  console.log('bord init done');
-  console.log($('#row-0-column-0'));
   return jsArr;
 }
 
@@ -111,6 +158,5 @@ function resetBoard(event) {
 }
 
 jsArr = getBoard(rows, columns);
-// let reset = document.getElementById("reset")
-// reset.addEventListener("click", resetBoard)
 $('#reset').click(resetBoard);
+
