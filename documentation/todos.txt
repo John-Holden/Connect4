@@ -6,6 +6,7 @@ _____________________________
 1. Refactor code make nicer:
 	- look through Ed's solution and get ideas for functional-programming
 	- Make 'functional'
+	- use objects to store data-structs
 	- re-code win-logic with nicer methods
 	- render board each time take turn... (this will make animations easier)
 

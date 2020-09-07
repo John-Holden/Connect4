@@ -168,5 +168,16 @@ function resetBoard(event) {
   }
 }
 
+const resetCount = (event) => {
+  console.log('reset count');
+  rWins = 0;
+  yWins = 0;
+  $('#yCount').text(yWins);
+  $('#rCount').text(yWins);
+};
+
+resetCount();
+
 jsArr = getBoard(rows, columns);
-$('#reset').click(resetBoard);
+$('#resetBoard').click(resetBoard);
+$('#resetCount').click(resetCount);
