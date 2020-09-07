@@ -20,7 +20,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1; // if same as peice above add 1
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -35,7 +36,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -53,7 +55,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -71,7 +74,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -99,9 +103,11 @@ function takeTurn(event) {
           if (playerCount % 2 === 0) {
             yWins++; // update red token counter
             $('#yCount').text(yWins);
+            $('#winMsg').css('color', 'yellow');
           } else { // update yellow token counter
             rWins++;
             $('#rCount').text(rWins);
+            $('#winMsg').css('color', 'red');
           }
           $('#winMsg').fadeIn(200);
           $('#winMsg').fadeOut(2500);
@@ -132,7 +138,7 @@ function getBoard(rows, columns) {
       if (i === 0) {
         const button = $('<button> </button>');
         button.attr('id', `button-${j}`);
-        button.attr('class', 'btn btn-primary btn-lg myButtons column');
+        button.attr('class', 'btn btn-primary btn-lg counterButtons column');
         button.text('🖖');
         button.click(takeTurn);
         $(`#row-${i}`).append(button);
@@ -175,6 +181,6 @@ const resetCount = (event) => {
   $('#rCount').text(yWins);
 };
 
-getBoard(rows, columns);
+jsArr = getBoard(rows, columns);
 $('#resetBoard').click(resetBoard);
 $('#resetCount').click(resetCount);

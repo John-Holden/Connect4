@@ -5,163 +5,14 @@
     <meta charset="UTF-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <style>
-        .text {
-            text-align: center;
-        }
-        #grid {
-            width: 75%;
-            height: 75%;
-            background-color: blue;
-            border-radius: 20px;
-            font-size: 5vw;
-            box-shadow: 2px 2px black;
-            justify-content: space-evenly;
-        }
-        .row {
-            flex-wrap: wrap;
-            justify-content: center;
-            justify-content: space-evenly;
-            padding: 1px;
-        }
-        .column {
-            flex-wrap: wrap;
-            margin-left: 1.5%;
-            margin-right: 1.5%;
-            /* border: 1px solid blue; */
-            border: none;
-            padding: 1px;
-        }
-        .myButtons {
-            padding: 1px;
-            font-size: 5vw;
-            background-color: blue;
-            border-radius: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .winBanner {
-            position: absolute;
-            color: black;
-            font-size: 15vw;
-            top:  27%;
-            left: 25%;
-            margin-top: -50px;
-            margin-left: -50px;
-            width: 100px;
-            height: 100px;
-            display: none;
-            opacity: 1;
-        }
-        .controlCol {
-            align-content: center;
-            justify-content: center;
-            font-size: 5vw;
-            border: none;
-        }
-        .button {
-            border-radius: 4px;
-            background-color: #f4511e;
-            border: none;
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 20px;
-            padding: 15px;
-            width: 200px;
-            transition: all 0.5s;
-            cursor: pointer;
-        }   
-        .button span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-        .button span:after {
-        content: '\00bb';
-        position: absolute;
-        opacity: 0;
-        top: 0;
-        right: -20px;
-        transition: 0.5s;
-        }
-        .button:hover span {
-        padding-right: 25px;
-        }
-        .button:hover span:after {
-        opacity: 1;
-        right: 0;
-        }
-        .winCounters {
-            position: absolute;
-            font-size: 3vw;
-            margin-left: 45%;
-        }
-        .yCount {
-            width: 65px;
-            height: 65px;
-            background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-yellow-circle_1f7e1.png");
-            background-size: 65px 65px;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-       }
-       .rCount {
-            width: 70px;
-            height: 70px;
-            background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-red-circle_1f534.png");
-            background-size: 70px 70px;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-       }
-
-       /* .fallingInit {
-        animation-name: example;
-        animation-duration: 4s;
-        animation-iteration-count: 3;
-      }
-
-      @keyframes falling {
-        0%   {background-color:yellow; left:0px; top:-500px;}
-        25%  {background-color:red; left:0x; top:0px;}
-        }
-
-       .div_ {
-        width: 100px;
-        height: 100px;
-        background-color: red;
-        position: relative;
-        animation-name: example;
-        animation-duration: 4s;
-        animation-iteration-count: 3;
-      }
-      @keyframes example {
-        0%   {background-color:yellow; left:0px; top:-500px;}
-        25%  {background-color:red; left:0x; top:0px;}
-        50%  {background-color:blue; left:200px; top:200px;}
-        75%  {background-color:green; left:0px; top:200px;}
-        /* 100% {background-color:red; left:0px; top:0px;} } */
-        
-    .movetxt {
-    position: relative;
-    -webkit-animation: moving 2s;
-    animation: moving 2s;
-    }
-
-    @keyframes moving {
-    from {top: -1000px;}
-    to {top: 0px;}
-    }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 
 <body id="test">
     <h1 class="text">Connect 4</h1>
     <br>
     <div class="container" id="grid">
-        <p class="winBanner" id=winMsg> Winner!</p>
+        <p class="winBannerMsg" id=winMsg> Winner!</p>
         <!-- bord elemtns go here-->
     </div>
     <br>
@@ -170,14 +21,14 @@
         <!-- win count & reset go here -->
         <div class="row controlCol">
             <div class="column controlCol rCount" id='rCount'> </div>
-            <div class="column controlCol" id='resetButtoncol'> 
+            <div class="column controlCol" id='resetButtoncol'>
                 <button class="button" id="resetBoard"><span>Clear Board </span></button>
             </div>
             <div class="column controlCol yCount" id='yCount'></div>
         </div>
 
-        <div class="row"> 
-            <div class="column controlCol" id='resetCount'> 
+        <div class="row">
+            <div class="column controlCol" id='resetCount'>
                 <button class="button" id="reset" style="background-color:grey;
                                                         font-size: 10px; 
                                                         padding: 5px;
@@ -185,7 +36,7 @@
             </div>
         </div>
 
-    <!-- <div class="div_"></div> -->
+        <!-- <div class="div_"></div> -->
 </body>
 
 
@@ -193,5 +44,6 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- java script import -->
-<script src="javasc.js" type="text/javascript"> </script>
+<script src="javasc.js" type="text/javascript">
+</script>
 <!-- jQuery library -->

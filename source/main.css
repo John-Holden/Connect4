@@ -1,4 +1,186 @@
+.text {
+    text-align: center;
+}
 
-.example {
-    color: red;
+
+/* main board mxm container */
+
+#grid {
+    width: 75%;
+    height: 75%;
+    background-color: blue;
+    border-radius: 20px;
+    font-size: 6.5vw;
+    box-shadow: 2px 2px black;
+    justify-content: space-evenly;
+}
+
+
+/* style for n rows in the board */
+
+.row {
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-evenly;
+    padding: 1px;
+}
+
+
+/* style for m rows in the board */
+
+.column {
+    flex-wrap: wrap;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    border: none;
+    padding: 1px;
+}
+
+
+/* buttons to register taketurns */
+
+.counterButtons {
+    padding: 1px;
+    font-size: 6.5vw;
+    background-color: blue;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.winBannerMsg {
+    position: absolute;
+    color: black;
+    font-size: 15vw;
+    top: 27%;
+    left: 25%;
+    margin-top: -100px;
+    margin-left: 50px;
+    width: 100px;
+    height: 100px;
+    display: none;
+    opacity: 1;
+}
+
+.controlCol {
+    align-content: center;
+    justify-content: center;
+    font-size: 5vw;
+    border: none;
+}
+
+
+/* button animations */
+
+.button {
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 20px;
+    padding: 15px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.winCounters {
+    position: absolute;
+    font-size: 3vw;
+    margin-left: 45%;
+}
+
+
+/* yellow token, set as emoji */
+
+.yCount {
+    width: 65px;
+    height: 65px;
+    background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-yellow-circle_1f7e1.png");
+    background-size: 65px 65px;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* red token, set as emoji */
+
+.rCount {
+    width: 70px;
+    height: 70px;
+    background-image: url("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/large-red-circle_1f534.png");
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* .fallingInit {
+animation-name: example;
+animation-duration: 4s;
+animation-iteration-count: 3;
+}
+
+@keyframes falling {
+0%   {background-color:yellow; left:0px; top:-500px;}
+25%  {background-color:red; left:0x; top:0px;}
+}
+
+.div_ {
+width: 100px;
+height: 100px;
+background-color: red;
+position: relative;
+animation-name: example;
+animation-duration: 4s;
+animation-iteration-count: 3;
+}
+@keyframes example {
+0%   {background-color:yellow; left:0px; top:-500px;}
+25%  {background-color:red; left:0x; top:0px;}
+50%  {background-color:blue; left:200px; top:200px;}
+75%  {background-color:green; left:0px; top:200px;}
+/* 100% {background-color:red; left:0px; top:0px;} } */
+
+.movetxt {
+    position: relative;
+    -webkit-animation: moving 2s;
+    animation: moving 2s;
+}
+
+@keyframes moving {
+    from {
+        top: -1000px;
+    }
+    to {
+        top: 0px;
+    }
 }
