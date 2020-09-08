@@ -20,7 +20,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1; // if same as peice above add 1
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -35,7 +36,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -53,7 +55,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -71,7 +74,8 @@ function CheckWinner(onRow, onCol, jsArr) {
       connectCount += 1;
     } else {
       connectCount = 1;
-    } if (connectCount === connectN) {
+    }
+    if (connectCount === connectN) {
       winner = true;
       return winner;
     }
@@ -175,6 +179,6 @@ const resetCount = (event) => {
   $('#rCount').text(yWins);
 };
 
-getBoard(rows, columns);
+jsArr = getBoard(rows, columns);
 $('#resetBoard').click(resetBoard);
 $('#resetCount').click(resetCount);
