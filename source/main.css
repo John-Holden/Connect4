@@ -36,6 +36,18 @@
     padding: 1px;
 }
 
+.cell {
+    background-image: url('/Users/johnholden/Documents/js/connect4/circle_2.png');
+    width: 55px;
+    height: 55px;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
 
 /* buttons to register taketurns */
 
@@ -60,6 +72,7 @@
     height: 100px;
     display: none;
     opacity: 1;
+    transform: rotate(45deg);
 }
 
 .controlCol {
@@ -83,6 +96,13 @@
     width: 200px;
     transition: all 0.5s;
     cursor: pointer;
+}
+
+.button2 {
+    background-color: grey;
+    font-size: 10px;
+    padding: 5px;
+    width: 110px;
 }
 
 .button span {
@@ -173,12 +193,12 @@ animation-iteration-count: 3;
 .movetxt {
     position: relative;
     -webkit-animation: moving 2s;
-    animation: moving 2s;
+    animation: moving 1s;
 }
 
 @keyframes moving {
     from {
-        top: -1000px;
+        top: -500px;
     }
     to {
         top: 0px;
