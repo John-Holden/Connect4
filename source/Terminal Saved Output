@@ -1,0 +1,85 @@
+Last login: Wed Sep  9 10:12:37 on ttys002
+johnholden@Johns-MacBook-Pro ~ % cd Documents/js/connect4 
+johnholden@Johns-MacBook-Pro connect4 % ls
+documentation     package-lock.json serverSide.js     tests
+node_modules      package.json      source
+johnholden@Johns-MacBook-Pro connect4 % cat package.json 
+{
+  "name": "connect4",
+  "version": "1.0.0",
+  "description": "connectfor game",
+  "main": "javasc.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jest": "^26.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/John-Holden/Connect4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/John-Holden/Connect4/issues"
+  },
+  "homepage": "https://github.com/John-Holden/Connect4#readme"
+}
+johnholden@Johns-MacBook-Pro connect4 % clear
+
+johnholden@Johns-MacBook-Pro connect4 % ls
+documentation     package-lock.json serverSide.js     tests
+node_modules      package.json      source
+johnholden@Johns-MacBook-Pro connect4 % npm install -g nodemon
+/Users/johnholden/.npm-packages/bin/nodemon -> /Users/johnholden/.npm-packages/lib/node_modules/nodemon/bin/nodemon.js
+
+> nodemon@2.0.4 postinstall /Users/johnholden/.npm-packages/lib/node_modules/nodemon
+> node bin/postinstall || exit 0
+
++ nodemon@2.0.4
+added 121 packages from 58 contributors in 3.024s
+johnholden@Johns-MacBook-Pro connect4 % nodemon serverSide.js 
+[nodemon] 2.0.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node serverSide.js`
+server has started
+nodeomo -h
+^C%                                                                             johnholden@Johns-MacBook-Pro connect4 % nodemon serverSide.js 
+[nodemon] 2.0.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node serverSide.js`
+server has started
+rs
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+[nodemon] restarting due to changes...
+[nodemon] starting `node serverSide.js`
+server has started
+

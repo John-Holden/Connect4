@@ -4,6 +4,8 @@
   "description": "connectfor game",
   "main": "javasc.js",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "jest": "^26.4.2"
   },
   "devDependencies": {
