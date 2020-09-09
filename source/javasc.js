@@ -20,8 +20,23 @@ const arrGet = (nRow, mCol) => {
   return arr;
 };
 
-// const mapState = (state) => ['⚪', '🟡', '🔴'][state];
 const mapState = (state) => ['⚪', '🟡', '🔴'][state];
+
+// check for horizontal or vertcal win
+const rowColWin = (arr) => {
+  ''
+  return 1;
+};
+
+// check for diagonal wins
+const diagWin = (arr) => {
+  ''
+  return 1;
+};
+
+const checkWins = (arr) => {
+  console.log(arr);
+};
 
 // once called, fill board
 const fillBoard = (gameState, col) => {
@@ -40,7 +55,7 @@ const fillBoard = (gameState, col) => {
 const takeTurn = (event) => {
   const col = parseInt(event.target.id.split('-')[1], 10);
   const gameState = fillBoard(event.data.arr, col);
-  // check winner fucn
+  console.log(gameState);
   playerCount++;
   $('#grid').empty();
   renderBoard(gameState);
@@ -70,6 +85,7 @@ const renderBoard = (gameState) => { // For each turn, render gameState => html 
           text.attr('class', 'movetxt');
           text.text(mapState(gameState[i][j]));
           column.attr('class', 'column cell');
+          column.text('⚪');
           column.append(text);
         } else {
           column.attr('class', 'columm');

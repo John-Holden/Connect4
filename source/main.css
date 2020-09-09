@@ -37,15 +37,17 @@
 }
 
 .cell {
-    background-image: url('/Users/johnholden/Documents/js/connect4/circle_2.png');
-    width: 55px;
-    height: 55px;
-    background-size: 50px 50px;
+    /* background-image: url('/Users/johnholden/Documents/js/connect4/circle_2.png'); */
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
     background-repeat: no-repeat;
+    background-position: center;
     border-radius: 60px;
     display: flex;
     justify-content: center;
     text-align: center;
+    background-size: cover;
 }
 
 
@@ -191,16 +193,17 @@ animation-iteration-count: 3;
 /* 100% {background-color:red; left:0px; top:0px;} } */
 
 .movetxt {
-    position: relative;
-    -webkit-animation: moving 2s;
+    position: absolute;
+    -webkit-animation: moving 1s;
     animation: moving 1s;
+    /* animation-duration: 4s */
 }
 
 @keyframes moving {
     from {
-        top: -500px;
+        top: 0px;
     }
     to {
-        top: 0px;
+        top: 50px;
     }
 }
