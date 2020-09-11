@@ -8,6 +8,7 @@ const connectN = 4;
 let rWins = 0;
 let yWins = 0;
 let playerCount = 0;
+let inPlay = true;
 
 // initialise empty board arr
 const arrGet = (nRow, mCol) => {
@@ -57,31 +58,29 @@ const checkWinningLines = (arr) => {
 
 // sweep through either +ve or -ve diagonals
 const diagonalise = (arr) => {
-  const yDim = arr.length;
-  const xDim = arr[0].length;
-  const arr1 = arr.flat();
+  arr.flat();
   let start = 0;
   const diagSweep = [];
   const startingPos = [];
   // finding start positions
-  for (start = 0; start < (yDim * xDim); start += xDim) {
+  for (start = 0; start < (rows * cols); start += cols) {
     startingPos.push(start);
   }
-  for (start = 1; start < xDim; start++) {
+  for (start = 1; start < cols; start++) {
     startingPos.push(start);
   }
   // sweep through ALL diagonals
   for (let index = 0; index < startingPos.length; index++) {
     const diagLine = [0];
     let point = startingPos[index];
-    while (point < (yDim * xDim)) {
+    while (point < (rows * cols)) {
       // iterate through SINGLE diagonal
-      if (point < (yDim * xDim)) {
-        diagLine.push(arr1[point]);
+      if (point < (rows * cols)) {
+        diagLine.push(arr[point]);
       } else {
         break;
       }
-      point += xDim + 1;
+      point += cols + 1;
     }
     diagSweep.push(diagLine);
   }
@@ -138,6 +137,7 @@ const takeTurn = (event) => {
       $('#rCount').text(rWins);
       $('#winMsg').css('color', 'red');
     }
+    inPlay = false;
     $('#winMsg').fadeIn(200);
     $('#winMsg').fadeOut(2500);
   }
@@ -161,7 +161,9 @@ const renderBoard = (gameState) => {
         button.attr('id', `button-${j}`);
         button.attr('class', 'btn btn-primary btn-lg counterButtons column');
         button.text('🖖');
-        button.click({ arr: gameState }, takeTurn);
+        if (inPlay) {
+          button.click({ arr: gameState }, takeTurn);
+        }
         $(`#row-${i}`).append(button);
       } else {
         const column = $('<div> </div>');
@@ -186,11 +188,21 @@ const renderBoard = (gameState) => {
 };
 
 const resetBoard = () => {
+  inPlay = true;
   $('#grid').empty();
   renderBoard(arrGet(rows, cols));
 };
 
+const resetCounter = () => {
+  rWins = 0;
+  yWins = 0;
+  const rCount = $('#rCount').text(rWins);
+  const yCount = $('#yCount').text(rWins);
+  rCount.text(rWins);
+  yCount.text(yWins);
+};
 const arr = arrGet(rows, cols);
 renderBoard(arr);
 
 $('#resetBoard').click(resetBoard);
+$('#resetCount').click(resetCounter);

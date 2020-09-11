@@ -37,7 +37,6 @@
 }
 
 .cell {
-    /* background-image: url('/Users/johnholden/Documents/js/connect4/circle_2.png'); */
     width: 40px;
     height: 40px;
     background-size: 40px 40px;
