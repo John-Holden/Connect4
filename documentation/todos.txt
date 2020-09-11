@@ -1,27 +1,34 @@
 
 
+1. Finish migrating to server:
+	- initialise the game state with a get request 
+2. Tidy up back end with importing functions from different file.
+3. Fix window scaling bug, wtf ? 
 
+_____________________________
+
+11/09/2020 Date
 _____________________________
 
 1. Refactor code make nicer:
-	- look through Ed's solution and get ideas for functional-programming
-	- Make 'functional'
-	- use objects to store data-structs
-	- re-code win-logic with nicer methods
-	- render board each time take turn... (this will make animations easier)
+	- look through Ed's solution and get ideas for functional-programming: yes
+	- Make 'functional': Kina
+	- use objects to store data-structs: not needed
+	- re-code win-logic with nicer methods: yep
+	- render board each time take turn... (this will make animations easier): yep
 
-2. Build logic tests
+2. Build logic tests: not yet
 
 3. Add more front-end style
-	- reset counter functionality
-	- dropdown input setup for game, connect N
-	- more animations for winning line
-	- put 'best of' function start up
+	- reset counter functionality: yep
+	- dropdown input setup for game, connect N: not yet
+	- more animations for winning line: not yet
+	- put 'best of' function start up: not yet
 
 
 _____________________________
 
-09/04/2020 Done.
+04/09/2020 Done.
 _____________________________
 
 0: Make a map of how code works
