@@ -143,7 +143,7 @@ const resetCounters = () => {
   });
 };
 
-// let gameState = arrGet(rows, cols); // migrate this to serverSide
+let gameState = arrGet(rows, cols); // migrate this to serverSide
 $('#resetBoard').click(resetBoard);
 $('#reset').click(resetCounters);
 $(renderBoard());
