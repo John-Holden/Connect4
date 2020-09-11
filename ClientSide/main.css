@@ -6,6 +6,7 @@
 /* main board mxm container */
 
 #grid {
+    flex-wrap: wrap;
     width: 75%;
     height: 75%;
     background-color: blue;
@@ -36,7 +37,11 @@
     padding: 1px;
 }
 
+
+/* append moving text to cell */
+
 .cell {
+    flex-wrap: wrap;
     width: 40px;
     height: 40px;
     background-size: 40px 40px;
@@ -63,7 +68,6 @@
 
 .winBannerMsg {
     position: absolute;
-    color: black;
     font-size: 15vw;
     top: 5%;
     left: 25%;
