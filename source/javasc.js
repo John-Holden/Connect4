@@ -8,7 +8,6 @@ const connectN = 4;
 let rWins = 0;
 let yWins = 0;
 let playerCount = 0;
-let winner = false;
 
 // initialise empty board arr
 const arrGet = (nRow, mCol) => {
@@ -22,23 +21,96 @@ const arrGet = (nRow, mCol) => {
 
 const mapState = (state) => ['⚪', '🟡', '🔴'][state];
 
-// check for horizontal or vertcal win
-const rowColWin = (arr) => {
-  ''
-  return 1;
+const transpose = (arr) => {
+  const arrTrans = arrGet(rows, cols);
+  for (let i = 1; i < arr.length; i++) {
+    for (let j = 0; j < arr[0].length; j++) {
+      arrTrans[j][i] = arr[i][j];
+    }
+  }
+  return arrTrans;
 };
 
-// check for diagonal wins
-const diagWin = (arr) => {
-  ''
-  return 1;
+const flip = (arr) => {
+  const arrFlip = arrGet(rows, cols);
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[0].length; j++) {
+      arrFlip[i][j] = arr[i][cols - j - 1];
+    }
+  }
+  return arrFlip;
 };
 
+const checkWinningLines = (arr) => {
+  // takes 1 dimensional arr
+  let connected = 1;
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] === arr[i + 1] && arr[i] > 0) {
+      connected++;
+    } else { connected = 1; }
+    if (connected === connectN) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// sweep through either +ve or -ve diagonals
+const diagonalise = (arr) => {
+  const yDim = arr.length;
+  const xDim = arr[0].length;
+  const arr1 = arr.flat();
+  let start = 0;
+  const diagSweep = [];
+  const startingPos = [];
+  // finding start positions
+  for (start = 0; start < (yDim * xDim); start += xDim) {
+    startingPos.push(start);
+  }
+  for (start = 1; start < xDim; start++) {
+    startingPos.push(start);
+  }
+  // sweep through ALL diagonals
+  for (let index = 0; index < startingPos.length; index++) {
+    const diagLine = [0];
+    let point = startingPos[index];
+    while (point < (yDim * xDim)) {
+      // iterate through SINGLE diagonal
+      if (point < (yDim * xDim)) {
+        diagLine.push(arr1[point]);
+      } else {
+        break;
+      }
+      point += xDim + 1;
+    }
+    diagSweep.push(diagLine);
+  }
+  return diagSweep.flat();
+};
+
+// find horizontal, vertical and diagonal wins
 const checkWins = (arr) => {
-  console.log(arr);
+  if (checkWinningLines(arr.flat())) {
+    // horizontal
+    return true;
+  }
+  if (checkWinningLines(transpose(arr).flat())) {
+    // vertical
+    return true;
+  }
+  if (checkWinningLines(diagonalise(arr))) {
+    // +ve diagonal
+    return true;
+  }
+  if (checkWinningLines(diagonalise(flip(arr)))) {
+    // -ve diagonal
+    return true;
+  }
+
+  return false;
 };
 
-// once called, fill board
+// fill board with token's
 const fillBoard = (gameState, col) => {
   for (let i = 1; i < rows + 1; i++) {
     if (!gameState[i][col]) {
@@ -52,16 +124,31 @@ const fillBoard = (gameState, col) => {
   return gameState;
 };
 
+// fill board, check wins & update board
 const takeTurn = (event) => {
   const col = parseInt(event.target.id.split('-')[1], 10);
   const gameState = fillBoard(event.data.arr, col);
-  console.log(gameState);
+  if (checkWins(gameState)) {
+    if (playerCount % 2 === 0) {
+      yWins++; // update red token counter
+      $('#yCount').text(yWins);
+      $('#winMsg').css('color', 'yellow');
+    } else { // update yellow token counter
+      rWins++;
+      $('#rCount').text(rWins);
+      $('#winMsg').css('color', 'red');
+    }
+    $('#winMsg').fadeIn(200);
+    $('#winMsg').fadeOut(2500);
+  }
+
   playerCount++;
   $('#grid').empty();
   renderBoard(gameState);
 };
 
-const renderBoard = (gameState) => { // For each turn, render gameState => html container
+// Render gameState
+const renderBoard = (gameState) => {
   const grid = $('#grid');
   for (let i = 0; i < gameState.length; i++) {
     const row = $('<div> </div>');
@@ -79,7 +166,7 @@ const renderBoard = (gameState) => { // For each turn, render gameState => html 
       } else {
         const column = $('<div> </div>');
         column.attr('id', `row-${i}-col-${j}`);
-        if (playerCount > 0 && j === colX && i === rowY) {
+        if (playerCount > 0 && j === colX && i === rowY && gameState[i][j]) {
           // Apply animation if clicked
           const text = $('<div></div>');
           text.attr('class', 'movetxt');
@@ -91,7 +178,6 @@ const renderBoard = (gameState) => { // For each turn, render gameState => html 
           column.attr('class', 'columm');
           column.text(mapState(gameState[i][j]));
         }
-
         $(`#row-${i}`).append(column);
       }
     }
@@ -99,182 +185,12 @@ const renderBoard = (gameState) => { // For each turn, render gameState => html 
   return grid;
 };
 
+const resetBoard = () => {
+  $('#grid').empty();
+  renderBoard(arrGet(rows, cols));
+};
+
 const arr = arrGet(rows, cols);
 renderBoard(arr);
 
-// ---------------------------- before refactor...
-// // init empty board
-// function getBoard(rows, columns) {
-//   const jsArr = new Array(rows + 1);
-//   const grid = $('#grid');
-//   for (let i = 0; i < rows + 1; i++) {
-//     const row = $('<div> </div>');
-//     row.attr('id', `row-${i}`);
-//     row.attr('class', 'row row-md-12');
-//     grid.prepend(row);
-//     jsArr[i] = new Array(columns);
-//     jsArr[i].fill(null);
-//     for (let j = 0; j < columns; j++) {
-//       // set row of buttons
-//       if (i === 0) {
-//         const button = $('<button> </button>');
-//         button.attr('id', `button-${j}`);
-//         button.attr('class', 'btn btn-primary btn-lg counterButtons column');
-//         button.text('🖖');
-//         button.click(takeTurn);
-//         $(`#row-${i}`).append(button);
-//       }
-//       // set bord elements
-//       else {
-//         const column = $('<div> </div>');
-//         column.attr('id', `row-${i}-col-${j}`);
-//         // column.attr('class', 'column fallingInit');
-//         column.attr('class', 'column movetxt');
-//         column.text('⚪');
-//         $(`#row-${i}`).append(column);
-//       }
-//     }
-//   }
-//   const rToken = $('#rCount');
-//   rToken.text(rWins);
-//   const yToken = $('#yCount');
-//   yToken.text(yWins);
-//   return jsArr;
-// }
-
-// // check for winner
-// function CheckWinner(onRow, onCol, jsArr) {
-//   // check vertical win
-//   let connectCount = 1;
-//   for (let i = 1; i < rows; i++) {
-//     if (jsArr[i][onCol] === null) {
-//       winner = false;
-//       break;
-//     } else if (jsArr[i][onCol] === jsArr[i + 1][onCol]) {
-//       connectCount += 1;
-//     } else {
-//       connectCount = 1; // if same as peice above add 1
-//     }
-//     if (connectCount === connectN) {
-//       winner = true;
-//       return winner;
-//     }
-//   }
-
-//   // check horizontal win
-//   connectCount = 1;
-//   for (let j = 0; j < columns - 1; j++) {
-//     if (jsArr[onRow][j] === null) {
-//       connectCount = 1;
-//     } else if (jsArr[onRow][j] === jsArr[onRow][j + 1]) {
-//       connectCount += 1;
-//     } else {
-//       connectCount = 1;
-//     }
-//     if (connectCount === connectN) {
-//       winner = true;
-//       return winner;
-//     }
-//   }
-//   // check diagonals
-//   // +ve diagonal
-//   let rowStart = onRow - Math.min(onRow - 1, onCol);
-//   let colStart = onCol - Math.min(onRow - 1, onCol);
-//   let numIter = Math.min(rows + 1 - rowStart, columns - colStart);
-//   connectCount = 1;
-//   for (let i = 0; i < numIter - 1; i++) {
-//     if (jsArr[rowStart + i][colStart + i] === null) {
-//       connectCount = 1;
-//     } else if (jsArr[rowStart + i][colStart + i] === jsArr[rowStart + i + 1][colStart + i + 1]) {
-//       connectCount += 1;
-//     } else {
-//       connectCount = 1;
-//     }
-//     if (connectCount === connectN) {
-//       winner = true;
-//       return winner;
-//     }
-//   }
-//   // -ve diagonal
-//   connectCount = 1;
-//   rowStart = onRow - Math.min(onRow - 1, columns - onCol);
-//   colStart = +onCol + +Math.min(onRow - 1, columns - onCol);
-//   numIter = Math.min(rows + 1 - rowStart, colStart + 1);
-//   connectCount = 1;
-//   for (let i = 0; i < numIter - 1; i++) {
-//     if (jsArr[rowStart + i][colStart - i] === null) {
-//       connectCount = 1;
-//     } else if (jsArr[rowStart + i][colStart - i] === jsArr[rowStart + i + 1][colStart - (i + 1)]) {
-//       connectCount += 1;
-//     } else {
-//       connectCount = 1;
-//     }
-//     if (connectCount === connectN) {
-//       winner = true;
-//       return winner;
-//     }
-//   }
-//   return winner;
-// }
-
-// // click function: update tokens
-// function takeTurn(event) {
-//   if (winner === false) { // execute if in-play
-//     const colClicked = event.target.id.split('-')[1];
-//     for (let i = 1; i < rows + 1; i++) {
-//       if (jsArr[i][colClicked] === null) {
-//         // $(`#row-${i}-col-${colClicked}`).remove();
-//         const buttonClick = $(`#row-${i}-col-${colClicked}`);
-//         buttonClick.attr('class', 'column movetxt');
-//         if (playerCount % 2 === 0) {
-//           buttonClick.text(ytoken);
-//         } else {
-//           buttonClick.text(rtoken);
-//         }
-//         jsArr[i][colClicked] = (playerCount % 2) + 1;
-//         winner = CheckWinner(i, colClicked, jsArr);
-//         if (winner) {
-//           if (playerCount % 2 === 0) {
-//             yWins++; // update red token counter
-//             $('#yCount').text(yWins);
-//             $('#winMsg').css('color', 'yellow');
-//           } else { // update yellow token counter
-//             rWins++;
-//             $('#rCount').text(rWins);
-//             $('#winMsg').css('color', 'red');
-//           }
-//           $('#winMsg').fadeIn(200);
-//           $('#winMsg').fadeOut(2500);
-//         }
-//         playerCount++;
-//         break;
-//       }
-//     }
-//     // if else, prompt to reset board
-//   } else if (winner) {
-//     console.log('winner...');
-//   }
-// }
-
-// // redefine board
-// function resetBoard() {
-//   winner = false;
-//   for (let i = 1; i < rows + 1; i++) {
-//     for (let j = 0; j < columns; j++) {
-//       const gridCell = $(`#row-${i}-col-${j}`);
-//       gridCell.text('⚪');
-//       jsArr[i][j] = null;
-//     }
-//   }
-// }
-
-// const resetCount = () => {
-//   rWins = 0;
-//   yWins = 0;
-//   $('#yCount').text(yWins);
-//   $('#rCount').text(yWins);
-// };
-
-// jsArr = getBoard(rows, columns);
-// $('#resetBoard').click(resetBoard);
-// $('#resetCount').click(resetCount);
+$('#resetBoard').click(resetBoard);
