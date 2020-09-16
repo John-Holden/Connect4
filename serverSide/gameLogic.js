@@ -100,36 +100,41 @@ const checkWins = (arr, N) => {
 };
 
 // fill board with token's
-const fillBoard = (game, colClick) => {
-  for (let i = 1; i < game.rows + 1; i++) {
-    if (!game.board[i][colClick]) {
-      game.board[i][colClick] = game.playerCount % 2;
-      game.board[i][colClick]++;
-      game.rowAnim = i;
-      game.colAnim = colClick;
-      return game;
+const fillBoard = (gameState, colClick, tokenVal) => {
+  for (let i = 1; i < gameState.rows + 1; i++) {
+    if (!gameState.board[i][colClick]) {
+      gameState.board[i][colClick] = tokenVal;
+      gameState.rowAnim = i;
+      gameState.colAnim = colClick;
+      return gameState;
     }
   }
-  return game;
 };
 
-const gameState = {
-  cols: 7,
-  rows: 6,
-  colAnim: undefined,
-  rowAnim: undefined,
-  connectN: 4,
-  playerCount: 0,
-  rWins: 0,
-  yWins: 0,
-  inPlay: true,
-  winner: false,
-};
+const emptyBoard = emptyArr(6, 7);
 
-gameState.board = emptyArr(gameState.rows, gameState.cols);
+const gameStates = [{
+    // server's
+    connectN: 4,
+    rWins: 0,
+    yWins: 0,
+    winner: false,
+  },
+  // user's
+  {
+    cols: 7,
+    rows: 6,
+    inPlay: true,
+    playerCount: 0,
+    colAnim: undefined,
+    rowAnim: undefined,
+    board: emptyArr(6, 7),
+  },
+];
+
 if (typeof module !== 'undefined') {
   module.exports = {
-    gameState,
+    gameStates,
     emptyArr,
     checkWins,
     fillBoard,

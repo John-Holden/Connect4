@@ -1,21 +1,21 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable eol-last */
 /* eslint-disable no-console */
-// migrate to an object to serverSide
-
-const mapState = (state) => ['⚪', '🟡', '🔴'][state];
 
 // display win messge pop up
-const winMsg = (moveNum, rWins, yWins) => {
-  if (moveNum % 2 === 0) {
-    $('#rCount').text(rWins);
-    $('#winMsg').css('color', 'red');
-  } else {
-    $('#yCount').text(yWins);
-    $('#winMsg').css('color', 'yellow');
-  }
+const winMsg = (player) => {
+  let color;
+  if (player === 1) {
+    color = 'yellow';
+  } else { color = 'red'; }
+  $('#winMsg').css('color', color);
   $('#winMsg').fadeIn(200);
   $('#winMsg').fadeOut(2500);
+};
+
+const dispWins = (rWins, yWins) => {
+  $('#rCount').text(rWins);
+  $('#yCount').text(yWins);
 };
 
 const boardClick = (event) => {
@@ -29,10 +29,11 @@ const boardClick = (event) => {
     data: JSON.stringify(body),
     contentType: 'application/json',
     success: (result) => {
-      const game = result;
-      if (game.winner) {
-        winMsg(game.playerCount, game.rWins, game.yWins);
+      dispWins(result[0].rWins, result[0].yWins);
+      if (result[0].winner) {
+        winMsg((result[1].playerCount % 2) + 1);
       }
+      const game = result[1];
       // clear and re-render the board.
       $('#grid').empty();
       renderBoard(game);
@@ -57,21 +58,21 @@ const renderBoard = (game) => {
           button.click({ arr: game.board }, boardClick);
         }
         $(`#row-${i}`).append(button);
-      } else {
+      } else { // assign tokens: 0->empty, 1->yellow, 2->red.
         const column = $('<div> </div>');
         column.attr('id', `row-${i}-col-${j}`);
+        const token = ['⚪', '🟡', '🔴'][game.board[i][j]];
         if (game.playerCount > 0 && j === game.colAnim && i === game.rowAnim && game.board[i][j]) {
           // If clicked, apply animation
           const text = $('<div></div>');
           text.attr('class', 'movetxt');
-          text.text(mapState(game.board[i][j]));
+          text.text(token);
           column.attr('class', 'column cell');
           column.text('⚪');
           column.append(text);
         } else {
           column.attr('class', 'columm');
-          // column.text(mapState(game.board[i][j]));
-          column.text(['⚪', '🟡', '🔴'][game.board[i][j]]);
+          column.text(token);
         }
         $(`#row-${i}`).append(column);
       }
@@ -90,6 +91,7 @@ const resetBoard = () => {
     contentType: 'application/json',
     success: (result) => {
       const game = result;
+      console.log(game);
       $('#grid').empty();
       renderBoard(game);
     },
@@ -119,7 +121,6 @@ const startGame = () => {
     type: 'GET',
     url: '/init',
     success: (result) => {
-      console.log('received...');
       const game = result;
       $('#resetBoard').click(resetBoard);
       $('#reset').click(resetCounters);
