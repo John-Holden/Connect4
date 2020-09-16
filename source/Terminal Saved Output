@@ -1,0 +1,61 @@
+Last login: Mon Sep 14 19:10:43 on console
+johnholden@Johns-MacBook-Pro ~ % cd Documents/js/connect4
+johnholden@Johns-MacBook-Pro connect4 % ls
+ClientSide        node_modules      package.json      source
+documentation     package-lock.json serverSide        tests
+johnholden@Johns-MacBook-Pro connect4 % nodemon serverSide/server.js 
+[nodemon] 2.0.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node serverSide/server.js`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

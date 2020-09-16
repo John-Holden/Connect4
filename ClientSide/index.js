@@ -1,43 +1,21 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable eol-last */
 /* eslint-disable no-console */
 // migrate to an object to serverSide
-const cols = 7;
-const rows = 6;
-let colX = 0;
-let rowY = 0;
-let rWins = 0;
-let yWins = 0;
-let playerCount = 0;
-let inPlay = true;
-let winnerStatus = false;
 
 const mapState = (state) => ['⚪', '🟡', '🔴'][state];
 
-const arrGet = (nRow, mCol) => {
-  const arr = new Array(nRow + 1);
-  for (let i = 0; i < nRow + 1; i++) {
-    arr[i] = new Array(mCol);
-    arr[i].fill(0);
+// display win messge pop up
+const winMsg = (moveNum, rWins, yWins) => {
+  if (moveNum % 2 === 0) {
+    $('#rCount').text(rWins);
+    $('#winMsg').css('color', 'red');
+  } else {
+    $('#yCount').text(yWins);
+    $('#winMsg').css('color', 'yellow');
   }
-  return arr;
-};
-
-// display win messge
-const winMsg = (winStatus, moveNum) => {
-  if (winStatus) {
-    if (moveNum % 2 === 0) {
-      rWins++; // update red token counter
-      $('#rCount').text(rWins);
-      $('#winMsg').css('color', 'red');
-    } else { // update yellow token counter
-      yWins++;
-      $('#yCount').text(yWins);
-      $('#winMsg').css('color', 'yellow');
-    }
-    inPlay = false;
-    $('#winMsg').fadeIn(200);
-    $('#winMsg').fadeOut(2500);
-  }
+  $('#winMsg').fadeIn(200);
+  $('#winMsg').fadeOut(2500);
 };
 
 const boardClick = (event) => {
@@ -51,51 +29,49 @@ const boardClick = (event) => {
     data: JSON.stringify(body),
     contentType: 'application/json',
     success: (result) => {
-      // clear and re-render the
-      gameState = result.gameStates.board;
-      winnerStatus = result.gameStates.winnerStatus;
-      playerCount = result.gameStates.playerCount;
-      rowY = result.gameStates.rowY;
-      colX = result.gameStates.colX;
-      winMsg(winnerStatus, playerCount);
+      const game = result;
+      if (game.winner) {
+        winMsg(game.playerCount, game.rWins, game.yWins);
+      }
+      // clear and re-render the board.
       $('#grid').empty();
-      // eslint-disable-next-line no-use-before-define
-      renderBoard();
+      renderBoard(game);
     },
   });
 };
 
-const renderBoard = () => {
+const renderBoard = (game) => {
   const grid = $('#grid');
-  for (let i = 0; i < gameState.length; i++) {
+  for (let i = 0; i < game.rows + 1; i++) {
     const row = $('<div> </div>');
     row.attr('id', `row-${i}`);
     row.attr('class', 'row row-md-12');
     grid.prepend(row);
-    for (let j = 0; j < gameState[0].length; j++) {
+    for (let j = 0; j < game.cols; j++) {
       if (i === 0) { // assign buttons to register take turn.
         const button = $('<button> </button>');
         button.attr('id', `button-${j}`);
         button.attr('class', 'btn btn-primary btn-lg counterButtons column');
         button.text('🖖');
-        if (inPlay) {
-          button.click({ arr: gameState }, boardClick);
+        if (game.inPlay) {
+          button.click({ arr: game.board }, boardClick);
         }
         $(`#row-${i}`).append(button);
       } else {
         const column = $('<div> </div>');
         column.attr('id', `row-${i}-col-${j}`);
-        if (playerCount > 0 && j === colX && i === rowY && gameState[i][j]) {
-          // Apply animation if clicked
+        if (game.playerCount > 0 && j === game.colAnim && i === game.rowAnim && game.board[i][j]) {
+          // If clicked, apply animation
           const text = $('<div></div>');
           text.attr('class', 'movetxt');
-          text.text(mapState(gameState[i][j]));
+          text.text(mapState(game.board[i][j]));
           column.attr('class', 'column cell');
           column.text('⚪');
           column.append(text);
         } else {
           column.attr('class', 'columm');
-          column.text(mapState(gameState[i][j]));
+          // column.text(mapState(game.board[i][j]));
+          column.text(['⚪', '🟡', '🔴'][game.board[i][j]]);
         }
         $(`#row-${i}`).append(column);
       }
@@ -113,12 +89,9 @@ const resetBoard = () => {
     data: JSON.stringify(body),
     contentType: 'application/json',
     success: (result) => {
-      gameState = result.newBoard;
-      inPlay = true;
-      rowY = 0;
-      colX = 0;
+      const game = result;
       $('#grid').empty();
-      renderBoard();
+      renderBoard(game);
     },
   });
 };
@@ -134,16 +107,25 @@ const resetCounters = () => {
     contentType: 'application/json',
     success: (result) => {
       if (result) {
-        rWins = 0;
-        yWins = 0;
+        $('#rCount').text(result.rWins);
+        $('#yCount').text(result.yWins);
       }
-      $('#rCount').text(rWins);
-      $('#yCount').text(yWins);
     },
   });
 };
 
-let gameState = arrGet(rows, cols); // migrate this to serverSide
-$('#resetBoard').click(resetBoard);
-$('#reset').click(resetCounters);
-$(renderBoard());
+const startGame = () => {
+  $.ajax({
+    type: 'GET',
+    url: '/init',
+    success: (result) => {
+      console.log('received...');
+      const game = result;
+      $('#resetBoard').click(resetBoard);
+      $('#reset').click(resetCounters);
+      $(renderBoard(game));
+    },
+  });
+};
+
+startGame();

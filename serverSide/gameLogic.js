@@ -1,17 +1,7 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-use-before-define */
-const cols = 7;
-const rows = 6;
-let colX = 0;
-let rowY = 0;
-const connectN = 4;
-let rWins = 0;
-let yWins = 0;
-let playerCount = 0;
-let inPlay = true;
+// initialise game state
 
-// initialise empty board arr
-const arrGet = (nRow, mCol) => {
+const emptyArr = (nRow, mCol) => {
   const arr = new Array(nRow + 1);
   for (let i = 0; i < nRow + 1; i++) {
     arr[i] = new Array(mCol);
@@ -20,10 +10,8 @@ const arrGet = (nRow, mCol) => {
   return arr;
 };
 
-const mapState = (state) => ['⚪', '🟡', '🔴'][state];
-
 const transpose = (arr) => {
-  const arrTrans = arrGet(rows, cols);
+  const arrTrans = emptyArr(arr.length, arr[0].length);
   for (let i = 1; i < arr.length; i++) {
     for (let j = 0; j < arr[0].length; j++) {
       arrTrans[j][i] = arr[i][j];
@@ -33,23 +21,23 @@ const transpose = (arr) => {
 };
 
 const flip = (arr) => {
-  const arrFlip = arrGet(rows, cols);
+  const arrFlip = emptyArr(arr.length, arr[0].length);
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr[0].length; j++) {
-      arrFlip[i][j] = arr[i][cols - j - 1];
+      arrFlip[i][j] = arr[i][arr[0].length - j - 1];
     }
   }
   return arrFlip;
 };
 
-const checkWinningLines = (arr) => {
+const checkWinningLines = (arr, N) => {
   // takes 1 dimensional arr
   let connected = 1;
   for (let i = 0; i < arr.length - 1; i++) {
     if (arr[i] === arr[i + 1] && arr[i] > 0) {
       connected++;
     } else { connected = 1; }
-    if (connected === connectN) {
+    if (connected === N) {
       return true;
     }
   }
@@ -58,10 +46,12 @@ const checkWinningLines = (arr) => {
 
 // sweep through either +ve or -ve diagonals
 const diagonalise = (arr) => {
-  arr = arr.flat();
+  const rows = arr.length;
+  const cols = arr[0].length;
   let start = 0;
   const diagSweep = [];
   const startingPos = [];
+  arr = arr.flat();
   // finding start positions
   for (start = 0; start < ((rows + 1) * cols); start += cols) {
     startingPos.push(start);
@@ -88,20 +78,20 @@ const diagonalise = (arr) => {
 };
 
 // find horizontal, vertical and diagonal wins
-const checkWins = (arr) => {
-  if (checkWinningLines(arr.flat())) {
+const checkWins = (arr, N) => {
+  if (checkWinningLines(arr.flat(), N)) {
     // horizontal
     return true;
   }
-  if (checkWinningLines(transpose(arr).flat())) {
+  if (checkWinningLines(transpose(arr).flat(), N)) {
     // vertical
     return true;
   }
-  if (checkWinningLines(diagonalise(arr))) {
+  if (checkWinningLines(diagonalise(arr), N)) {
     // +ve diagonal
     return true;
   }
-  if (checkWinningLines(diagonalise(flip(arr)))) {
+  if (checkWinningLines(diagonalise(flip(arr)), N)) {
     // -ve diagonal
     return true;
   }
@@ -110,15 +100,38 @@ const checkWins = (arr) => {
 };
 
 // fill board with token's
-const fillBoard = (gameState, col) => {
-  for (let i = 1; i < rows + 1; i++) {
-    if (!gameState[i][col]) {
-      gameState[i][col] = playerCount % 2;
-      gameState[i][col]++;
-      rowY = i;
-      colX = col;
-      return gameState;
+const fillBoard = (game, colClick) => {
+  for (let i = 1; i < game.rows + 1; i++) {
+    if (!game.board[i][colClick]) {
+      game.board[i][colClick] = game.playerCount % 2;
+      game.board[i][colClick]++;
+      game.rowAnim = i;
+      game.colAnim = colClick;
+      return game;
     }
   }
-  return gameState;
+  return game;
 };
+
+const gameState = {
+  cols: 7,
+  rows: 6,
+  colAnim: undefined,
+  rowAnim: undefined,
+  connectN: 4,
+  playerCount: 0,
+  rWins: 0,
+  yWins: 0,
+  inPlay: true,
+  winner: false,
+};
+
+gameState.board = emptyArr(gameState.rows, gameState.cols);
+if (typeof module !== 'undefined') {
+  module.exports = {
+    gameState,
+    emptyArr,
+    checkWins,
+    fillBoard,
+  };
+}
