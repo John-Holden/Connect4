@@ -11,8 +11,8 @@ const emptyArr = (nRow, mCol) => {
 };
 
 const transpose = (arr) => {
-  const arrTrans = emptyArr(arr.length, arr[0].length);
-  for (let i = 1; i < arr.length; i++) {
+  const arrTrans = emptyArr(arr.length - 1, arr[0].length);
+  for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr[0].length; j++) {
       arrTrans[j][i] = arr[i][j];
     }
@@ -52,20 +52,20 @@ const diagonalise = (arr) => {
   const diagSweep = [];
   const startingPos = [];
   arr = arr.flat();
-  // finding start positions
+  // finding start positions to begin iterations
   for (start = 0; start < ((rows + 1) * cols); start += cols) {
     startingPos.push(start);
   }
-  for (start = 1; start < cols; start++) {
+  for (start = 1; start < cols - 1; start++) {
     startingPos.push(start);
   }
-  // sweep through ALL diagonals
+  // sweep through ALL diagonals with 'point'
   for (let index = 0; index < startingPos.length; index++) {
-    const diagLine = [0];
+    const diagLine = [0]; //init new diagonal line
     let point = startingPos[index];
-    while (point < ((rows + 1) * cols)) {
-      // iterate through SINGLE diagonal
-      if (point < ((rows + 1) * cols)) {
+    while (point < (rows * cols)) {
+      // iterate through SINGLE diagonal - break when 'point' reaches domain edge
+      if (point < (rows * cols)) {
         diagLine.push(arr[point]);
       } else {
         break;
@@ -95,7 +95,6 @@ const checkWins = (arr, N) => {
     // -ve diagonal
     return true;
   }
-
   return false;
 };
 
@@ -111,16 +110,14 @@ const fillBoard = (gameState, colClick, tokenVal) => {
   }
 };
 
-const emptyBoard = emptyArr(6, 7);
-
 const gameStates = [{
-    // server's
+    // server data
     connectN: 4,
     rWins: 0,
     yWins: 0,
     winner: false,
   },
-  // user's
+  // user data
   {
     cols: 7,
     rows: 6,
@@ -138,5 +135,9 @@ if (typeof module !== 'undefined') {
     emptyArr,
     checkWins,
     fillBoard,
+    flip,
+    transpose,
+    diagonalise,
+    checkWinningLines,
   };
 }

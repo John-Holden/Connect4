@@ -13,8 +13,7 @@ const app = express();
 app.use(express.static('./clientSide'));
 app.use(express.json());
 
-app.post('/clicked', (req, res) => {
-  // update board
+app.post('/clicked', (req, res) => { // update board
   gameStates[1].playerCount++;
   const player = (gameStates[1].playerCount % 2) + 1;
   const { colClicked } = req.body;
@@ -36,8 +35,7 @@ app.post('/clicked', (req, res) => {
 });
 
 app.post('/resetBoard', (req, res) => {
-  if (req.body.reset) {
-    // reset board and resume game
+  if (req.body.reset) { // reset board and resume game
     gameStates[1].board = emptyArr(gameStates[1].rows, gameStates[1].cols);
     gameStates[1].inPlay = true;
     gameStates[1].colAnim = undefined;
@@ -46,8 +44,7 @@ app.post('/resetBoard', (req, res) => {
   }
 });
 
-app.post('/resetCounters', (req, res) => {
-  // empty counters & reset scoreboard
+app.post('/resetCounters', (req, res) => { // empty counters & reset scoreboard
   if (req.body.reset) {
     gameStates[0].rWins = 0;
     gameStates[0].yWins = 0;
@@ -55,12 +52,21 @@ app.post('/resetCounters', (req, res) => {
       rWins: gameStates[0].rWins,
       yWins: gameStates[0].yWins,
     });
+  } else {
+    throw new Error
   }
 });
 
-app.get('/init', (req, res) => {
-  // send intial user game state
+app.get('/init', (req, res) => { // send intial user game state
   res.json(gameStates[1]);
 });
 
-app.listen(3000);
+if (process.env.NODE_ENV !== 'test') { // set listen for test
+  app.listen(3000, () => {
+    console.log('server started on port 3000');
+  });
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = app
+}
