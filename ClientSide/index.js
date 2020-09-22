@@ -91,7 +91,6 @@ const resetBoard = () => {
     contentType: 'application/json',
     success: (result) => {
       const game = result;
-      console.log(game);
       $('#grid').empty();
       renderBoard(game);
     },

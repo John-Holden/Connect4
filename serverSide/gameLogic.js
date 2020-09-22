@@ -117,7 +117,7 @@ const gameStates = [{
     yWins: 0,
     winner: false,
   },
-  // user data
+  // user data 
   {
     cols: 7,
     rows: 6,

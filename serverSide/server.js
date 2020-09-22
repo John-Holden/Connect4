@@ -38,9 +38,11 @@ app.post('/resetBoard', (req, res) => {
   if (req.body.reset) { // reset board and resume game
     gameStates[1].board = emptyArr(gameStates[1].rows, gameStates[1].cols);
     gameStates[1].inPlay = true;
-    gameStates[1].colAnim = undefined;
-    gameStates[1].rowAnim = undefined;
-    res.json(gameStates[1]);
+    delete gameStates[1].colAnim
+    delete gameStates[1].rowAnim
+    res.json({...gameStates[1] });
+  } else {
+    throw new Error('reset not granted')
   }
 });
 
@@ -53,7 +55,7 @@ app.post('/resetCounters', (req, res) => { // empty counters & reset scoreboard
       yWins: gameStates[0].yWins,
     });
   } else {
-    throw new Error
+    throw new Error('Reset not granted')
   }
 });
 
