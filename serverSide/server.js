@@ -12,7 +12,6 @@ const {
 const app = express();
 app.use(express.static('./clientSide'));
 app.use(express.json());
-
 app.post('/clicked', (req, res) => { // update board
   gameStates[1].playerCount++;
   const player = (gameStates[1].playerCount % 2) + 1;
@@ -59,9 +58,23 @@ app.post('/resetCounters', (req, res) => { // empty counters & reset scoreboard
   }
 });
 
-app.get('/init', (req, res) => { // send intial user game state
+app.get('/startGame', (req, res) => { // start the game game send data
   res.json(gameStates[1]);
 });
+
+app.post('/gameSetup', (req, res) => { // update state object
+  gameStates[0].connectN = req.body.winConfig
+  const rows = parseInt(req.body.rowConfig, 10)
+  const cols = parseInt(req.body.colConfig, 10)
+  gameStates[1].rows = rows
+  gameStates[1].cols = cols
+  gameStates[1].board = emptyArr(rows, cols)
+  res.json('')
+})
+
+app.post('/userInit', (req, res) => {
+  res.json('aalksdj');
+})
 
 if (process.env.NODE_ENV !== 'test') { // set listen for test
   app.listen(3000, () => {

@@ -8,8 +8,10 @@
     <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 
+
 <body id="test">
-    <h1 class="text">Connect 4</h1>
+    <br>
+    <h1 class="text" id="headings" style="color: #808099;">Connect N</h1>
     <br>
     <p class="winBannerMsg" id=winMsg> Winner!</p>
     <div class="container" id="grid">
@@ -17,7 +19,7 @@
     </div>
     <br>
 
-    <div class="container">
+    <div class="container hidden" id="buttonControls">
         <!-- win count & reset go here -->
         <div class="row controlCol">
             <div class="column controlCol rCount" id='rCount'>0</div>
@@ -33,14 +35,66 @@
             </div>
         </div>
 
-        <!-- <div class="div_"></div> -->
+    </div>
+
+
+    <!-- Trigger/Open The Modal -->
+    <button class="button pulsingButton" id="modalBtn" style="width: 1000px; ">Click me to begin 😉 </button>
+    <!-- User generator: The Modal -->
+    <div id="myModal" class="modal modalStyle">
+        <!-- User generator: Modal content -->
+        <div class="modal-content">
+            <span class="close " id="closeBtn">&times;</span>
+            <form id="login-form">
+                <div class="modal-header">
+                    Setup
+                </div>
+
+                <div class="form-group form">
+                    <label for="usrname"><span class="glyphicon glyphicon-user"></span> Guest Username</label>
+                    <input type="text " class="form-control " id="usrname" placeholder="Enter guest username" name="username">
+                </div>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" value=" " name="rememberMe" checked> Remember me</label>
+                </div>
+                <button id="submitBtn" type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- board setup generator: The Modal -->
+    <div id="boardModal" class="modal modalStyle">
+        <!-- User generator: Modal content -->
+        <div class="modal-content ">
+            <span class="close " id="closeBtn">&times;</span>
+            <form id="board-form">
+                <div class="modal-header ">
+                    Game setup
+                </div>
+
+                <div class="form-group form ">
+                    <label for="winsConfig"><span class="glyphicon glyphicon-user "></span> Connect ? to win</label>
+                    <input type="text" class="form-control " id="winConfig" placeholder="(4)" name="winsConfig">
+
+                    <label for="columnsConfig"><span class="glyphicon glyphicon-user "></span> Columns</label>
+                    <input type="text " class="form-control " id="colConfig" placeholder="(7) " name="columnsConfig">
+
+                    <label for="rowsConfig"><span class="glyphicon glyphicon-user "></span> Rows</label>
+                    <input type="text " class="form-control " id="rowConfig" placeholder="(6) " name="rowsConfig">
+                </div>
+
+                <button id="submitBtn " type="submit " class="btn btn-success btn-block "><span class="glyphicon glyphicon-off "></span> Submit</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js "></script>
 <!-- java script import -->
-<script src="index.js" type="text/javascript">
-</script>
+<script src="index.js " type="text/javascript "></script>
 <!-- jQuery library -->

@@ -118,14 +118,80 @@ const resetCounters = () => {
 const startGame = () => {
   $.ajax({
     type: 'GET',
-    url: '/init',
+    url: '/startGame',
     success: (result) => {
       const game = result;
       $('#resetBoard').click(resetBoard);
       $('#reset').click(resetCounters);
+      $('#buttonControls').removeClass('hidden');
+      console.log($('#buttonControls'))
       $(renderBoard(game));
     },
   });
 };
 
-startGame();
+const boardConfig = () => {
+  const boardModal = $('#boardModal')
+  boardModal.css('display', 'block')
+  boardForm = $("#board-form")
+  console.log(boardForm)
+  boardForm.submit((event) => {
+    event.preventDefault()
+    const cols = $("#colConfig").val();
+    const rows = $("#rowConfig").val();
+    const winNum = $("#winConfig").val();
+    const body = {
+      winConfig: winNum,
+      rowConfig: rows,
+      colConfig: cols,
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '/gameSetup',
+      contentType: 'application/json',
+      data: JSON.stringify(body),
+      success: (result) => {
+        boardModal.css('display', 'none')
+        startGame()
+      },
+    });
+  })
+}
+
+const userInit = () => {
+  const modal = $('#myModal')
+  const modalBtn = $('#modalBtn')
+  const span = $('#closeBtn')
+  const loginForm = $('#login-form')
+  modalBtn.click(() => {
+    modalBtn.removeClass('pulsingButton')
+    modal.css('display', "block")
+  })
+  span.click(() => { modal.css('display', 'none') })
+  loginForm.submit((event) => {
+    event.preventDefault()
+    const input = $("#usrname").val();
+    const body = {
+      user: input,
+    };
+    if (input !== " " && input) {
+      $.ajax({
+        type: 'POST',
+        url: '/userInit',
+        // headers: { "content-type": "application/json" },
+        contentType: 'application/json',
+        data: JSON.stringify(body),
+        success: (result) => {
+          const myNumber = result
+          console.log('server sent result ... ')
+          modal.css('display', 'none')
+          boardConfig()
+            // 
+        },
+      });
+    }
+  })
+}
+
+userInit()

@@ -110,6 +110,14 @@ const fillBoard = (gameState, colClick, tokenVal) => {
   }
 };
 
+const getInitData = (winCount, columns, rows) => {
+  return {
+    connectN: winCount,
+    cols: columns,
+    rows: rows
+  }
+}
+
 const gameStates = [{
     // server data
     connectN: 4,
@@ -132,6 +140,7 @@ const gameStates = [{
 if (typeof module !== 'undefined') {
   module.exports = {
     gameStates,
+    getInitData,
     emptyArr,
     checkWins,
     fillBoard,
