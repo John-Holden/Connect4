@@ -12,12 +12,14 @@ const {
 const app = express();
 app.use(express.static('./clientSide'));
 app.use(express.json());
+
 app.post('/clicked', (req, res) => { // update board
   gameStates[1].playerCount++;
   const player = (gameStates[1].playerCount % 2) + 1;
   const { colClicked } = req.body;
   gameStates[1] = fillBoard(gameStates[1], colClicked, player);
   gameStates[0].winner = checkWins(gameStates[1].board, gameStates[0].connectN);
+
   if (gameStates[0].winner) { // update win counts
     if (player === 1) {
       gameStates[0].yWins++;
@@ -63,17 +65,27 @@ app.get('/startGame', (req, res) => { // start the game game send data
 });
 
 app.post('/gameSetup', (req, res) => { // update state object
-  gameStates[0].connectN = req.body.winConfig
-  const rows = parseInt(req.body.rowConfig, 10)
-  const cols = parseInt(req.body.colConfig, 10)
+  let winConfig = req.body.winConfig
+  let rows = req.body.rowConfig
+  let cols = req.body.colConfig
+  if (rows === '' || cols === '' || winConfig === '') {
+    rows = 6
+    cols = 7
+    winConfig = 4
+  } else {
+    rows = parseInt(rows, 10)
+    cols = parseInt(cols, 10)
+    winConfig = parseInt(winConfig, 10)
+  }
   gameStates[1].rows = rows
   gameStates[1].cols = cols
+  gameStates[0].connectN = winConfig
   gameStates[1].board = emptyArr(rows, cols)
   res.json('')
 })
 
 app.post('/userInit', (req, res) => {
-  res.json('aalksdj');
+  res.json('randomlyGeneratedId...');
 })
 
 if (process.env.NODE_ENV !== 'test') { // set listen for test

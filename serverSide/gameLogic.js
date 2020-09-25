@@ -79,6 +79,7 @@ const diagonalise = (arr) => {
 
 // find horizontal, vertical and diagonal wins
 const checkWins = (arr, N) => {
+
   if (checkWinningLines(arr.flat(), N)) {
     // horizontal
     return true;

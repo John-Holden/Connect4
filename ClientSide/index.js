@@ -43,6 +43,15 @@ const boardClick = (event) => {
 
 const renderBoard = (game) => {
   const grid = $('#grid');
+  if (game.playerCount % 2 === 0) {
+    $('#rCount').css('background-color', 'grey')
+    $('#rCount').css('border-radius', '20px')
+    $('#yCount').css('background-color', 'white')
+  } else {
+    $('#yCount').css('background-color', 'grey')
+    $('#yCount').css('border-radius', '20px')
+    $('#rCount').css('background-color', 'white')
+  }
   for (let i = 0; i < game.rows + 1; i++) {
     const row = $('<div> </div>');
     row.attr('id', `row-${i}`);
@@ -121,10 +130,13 @@ const startGame = () => {
     url: '/startGame',
     success: (result) => {
       const game = result;
+      $('#modalBtn').text('Click me to reconfigure')
+      $("#modalBtn").unbind("click");
+      $('#modalBtn').click(boardConfig)
       $('#resetBoard').click(resetBoard);
       $('#reset').click(resetCounters);
       $('#buttonControls').removeClass('hidden');
-      console.log($('#buttonControls'))
+      $('#grid').empty();
       $(renderBoard(game));
     },
   });
@@ -132,6 +144,11 @@ const startGame = () => {
 
 const boardConfig = () => {
   const boardModal = $('#boardModal')
+  const span = $('#closeBtn2')
+  span.click(() => {
+    boardModal.css('display', 'none')
+    $('#modalBtn').addClass('pulsingButton')
+  })
   boardModal.css('display', 'block')
   boardForm = $("#board-form")
   console.log(boardForm)
@@ -145,14 +162,14 @@ const boardConfig = () => {
       rowConfig: rows,
       colConfig: cols,
     }
-
     $.ajax({
       type: 'POST',
       url: '/gameSetup',
       contentType: 'application/json',
       data: JSON.stringify(body),
-      success: (result) => {
+      success: () => {
         boardModal.css('display', 'none')
+        $('#grid').empty();
         startGame()
       },
     });
@@ -162,13 +179,16 @@ const boardConfig = () => {
 const userInit = () => {
   const modal = $('#myModal')
   const modalBtn = $('#modalBtn')
-  const span = $('#closeBtn')
+  const span = $('#closeBtn1')
   const loginForm = $('#login-form')
   modalBtn.click(() => {
     modalBtn.removeClass('pulsingButton')
     modal.css('display', "block")
   })
-  span.click(() => { modal.css('display', 'none') })
+  span.click(() => {
+    modal.css('display', 'none')
+    modalBtn.addClass('pulsingButton')
+  })
   loginForm.submit((event) => {
     event.preventDefault()
     const input = $("#usrname").val();
@@ -179,12 +199,9 @@ const userInit = () => {
       $.ajax({
         type: 'POST',
         url: '/userInit',
-        // headers: { "content-type": "application/json" },
         contentType: 'application/json',
         data: JSON.stringify(body),
-        success: (result) => {
-          const myNumber = result
-          console.log('server sent result ... ')
+        success: () => {
           modal.css('display', 'none')
           boardConfig()
             // 
